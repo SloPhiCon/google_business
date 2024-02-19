@@ -16,36 +16,7 @@
     <!-- Include Google Sign-In library -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    <script>
-        // Initialize Google Sign-In
-        function initGoogleSignIn() {
-            gapi.load('auth2', function() {
-                var auth2 = gapi.auth2.init({
-                    client_id: '431062006675-mohumg8orrinedqrv4s7a8c4bts0ampg.apps.googleusercontent.com'
-                });
-                
-                // Attach click event handler to the sign-in button
-                var signInBtn = document.getElementById('googleSignInBtn');
-                auth2.attachClickHandler(signInBtn, {}, onSuccess, onFailure);
-            });
-        }
-
-        // Callback function for successful sign-in
-        function onSuccess(user) {
-            console.log('Signed in as ' + user.getBasicProfile().getName());
-            // You can perform additional actions after successful sign-in
-            window.location.href = 'https://sachin4b4.github.io/google_business/auth/callback';
-        }
-
-        // Callback function for failed sign-in
-        function onFailure(error) {
-            console.error('Sign-in failed:', error);
-        }
-
-        // Call initGoogleSignIn function when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initGoogleSignIn();
-        });
-    </script>
+    <!-- Include your JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
