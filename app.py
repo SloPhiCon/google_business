@@ -9,6 +9,9 @@ app.secret_key = os.urandom(24)  # Replace this with a secure key in production
 # Configuration for SAML
 SAML_PATH = os.path.join(os.getcwd(), 'saml')
 
+@app.route('/')
+def say_hi():
+    return 'Hi! This is the addition service.'
 
 def init_saml_auth(req):
     auth = OneLogin_Saml2_Auth(req, custom_base_path=SAML_PATH)
@@ -57,3 +60,6 @@ def login_callback():
         return f"{name_} User authenticated!"
     else:
         return f"Error in SAML Authentication: {errors}", 500
+
+if _name_ == '_main_':
+    app.run(host='0.0.0.0', port=5000)
