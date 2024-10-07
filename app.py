@@ -1,6 +1,7 @@
+import os
 from flask import Flask, request, jsonify
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 @app.route('/')
 def say_hi():
@@ -27,5 +28,7 @@ def add_numbers():
     # Return the result as JSON
     return jsonify({'result': result})
 
-if _name_ == '_main_':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    # Use the environment variable PORT, or default to port 5000 if not set
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
