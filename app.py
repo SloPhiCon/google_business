@@ -1,17 +1,16 @@
-from flask import Flask, redirect, url_for, request, session
-from onelogin.saml2.auth import OneLogin_Saml2_Auth
-
-import os
+from flask import Flask, request, jsonify
 
 app = Flask(_name_)
+
+@app.route('/')
+def say_hi():
+    return 'Hi! This is the addition service.'
+
 app.secret_key = os.urandom(24)  # Replace this with a secure key in production
 
 # Configuration for SAML
 SAML_PATH = os.path.join(os.getcwd(), 'saml')
 
-@app.route('/')
-def say_hi():
-    return 'Hi! This is the addition service.'
 
 def init_saml_auth(req):
     auth = OneLogin_Saml2_Auth(req, custom_base_path=SAML_PATH)
@@ -60,6 +59,28 @@ def login_callback():
         return f"{name_} User authenticated!"
     else:
         return f"Error in SAML Authentication: {errors}", 500
+[15:38, 07/10/2024] Sachin Bhusnurmath: from f
+
+@app.route('/add', methods=['POST'])
+def add_numbers():
+    # Get JSON data from the request
+    data = request.get_json()
+    
+    # Extract numbers from the JSON data
+    num1 = data.get('num1')
+    num2 = data.get('num2')
+    
+    # Check if both numbers are provided and are valid
+    if num1 is None or num2 is None:
+        return jsonify({'error': 'Please provide both num1 and num2'}), 400
+    if not isinstance(num1, (int, float)) or not isinstance(num2, (int, float)):
+        return jsonify({'error': 'Both num1 and num2 must be numbers'}), 400
+
+    # Perform addition
+    result = num1 + num2
+
+    # Return the result as JSON
+    return jsonify({'result': result})
 
 if _name_ == '_main_':
     app.run(host='0.0.0.0', port=5000)
